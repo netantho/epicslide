@@ -32,9 +32,7 @@ def _parse_options():
     parser = OptionParser(
         usage="%prog [options] input.md ...",
         description="Generates an HTML5 or PDF "
-                    "slideshow from Markdown or other formats",
-        epilog="Note: PDF export requires the `prince` program: "
-               "http://princexml.com/")
+                    "slideshow from Markdown or other formats")
 
     parser.add_option(
         "-c", "--copy-theme",

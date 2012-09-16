@@ -12,3 +12,6 @@ dist/
 .komodotools
 landslide.sublime-project
 docs/_build
+/.project
+/.pydevproject
+/.settings/org.eclipse.core.resources.prefs

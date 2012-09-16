@@ -12,7 +12,7 @@ A sample slideshow is [here](http://adamzap.com/random/landslide.html).
 
 - Write your slide contents easily using the [Markdown](http://daringfireball.net/projects/markdown/syntax) or [ReStructuredText](http://docutils.sourceforge.net/rst.html) syntaxes
 - [HTML5](http://dev.w3.org/html5/spec/), Web based, stand-alone document (embedded local images), fancy transitions
-- PDF export (using [PrinceXML](http://www.princexml.com/) if available)
+- PDF export (using [WeasyPrint](http://www.weasyprint.org/))
 
 
 # Requirements
@@ -70,7 +70,7 @@ If you want to stay on the edge:
 - Run `landslide slides.md` or `landslide slides.rst`
 - Enjoy your newly generated `presentation.html`
 
-Or get it as a PDF document if PrinceXML is installed and available on your system:
+Or get it as a PDF document:
 
     $ landslide README.md -d readme.pdf
     $ open readme.pdf

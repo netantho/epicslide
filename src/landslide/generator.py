@@ -500,8 +500,7 @@ class Generator(object):
             outfile.write(html)
 
     def write_pdf(self, html):
-        """ Tries to write a PDF export from the command line using PrinceXML
-            if available.
+        """ Writes a PDF export from the command line using WeasyPrint.
         """
         try:
             f = tempfile.NamedTemporaryFile(delete=False, suffix='.html')
@@ -513,11 +512,11 @@ class Generator(object):
         dummy_fh = open(os.path.devnull, 'w')
 
         try:
-            command = ["prince", f.name, self.destination_file]
+            command = ["weasyprint", f.name, self.destination_file]
 
             Popen(command, stderr=dummy_fh).communicate()
         except Exception:
             raise EnvironmentError(u"Unable to generate PDF file using "
-                                    "prince. Is it installed and available?")
+                                    "WeasyPrint. Is it installed and available?")
         finally:
             dummy_fh.close()
