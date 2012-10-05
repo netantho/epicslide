@@ -405,7 +405,7 @@ class Generator(object):
             self.logger(message, type)
 
     def parse_config(self, config_source):
-        """ Parses a landslide configuration file and returns a normalized
+        """ Parses an epicslide configuration file and returns a normalized
             python dict.
         """
         self.log(u"Config   %s" % config_source)
@@ -415,24 +415,24 @@ class Generator(object):
         except Exception, e:
             raise RuntimeError(u"Invalid configuration file: %s" % e)
         config = {}
-        config['source'] = raw_config.get('landslide', 'source')\
+        config['source'] = raw_config.get('epicslide', 'source')\
             .replace('\r', '').split('\n')
-        if raw_config.has_option('landslide', 'theme'):
-            config['theme'] = raw_config.get('landslide', 'theme')
+        if raw_config.has_option('epicslide', 'theme'):
+            config['theme'] = raw_config.get('epicslide', 'theme')
             self.log(u"Using    configured theme %s" % config['theme'])
-        if raw_config.has_option('landslide', 'destination'):
-            config['destination'] = raw_config.get('landslide', 'destination')
-        if raw_config.has_option('landslide', 'linenos'):
-            config['linenos'] = raw_config.get('landslide', 'linenos')
-        if raw_config.has_option('landslide', 'embed'):
-            config['embed'] = raw_config.getboolean('landslide', 'embed')
-        if raw_config.has_option('landslide', 'relative'):
-            config['relative'] = raw_config.getboolean('landslide', 'relative')
-        if raw_config.has_option('landslide', 'css'):
-            config['css'] = raw_config.get('landslide', 'css')\
+        if raw_config.has_option('epicslide', 'destination'):
+            config['destination'] = raw_config.get('epicslide', 'destination')
+        if raw_config.has_option('epicslide', 'linenos'):
+            config['linenos'] = raw_config.get('epicslide', 'linenos')
+        if raw_config.has_option('epicslide', 'embed'):
+            config['embed'] = raw_config.getboolean('epicslide', 'embed')
+        if raw_config.has_option('epicslide', 'relative'):
+            config['relative'] = raw_config.getboolean('epicslide', 'relative')
+        if raw_config.has_option('epicslide', 'css'):
+            config['css'] = raw_config.get('epicslide', 'css')\
                 .replace('\r', '').split('\n')
-        if raw_config.has_option('landslide', 'js'):
-            config['js'] = raw_config.get('landslide', 'js')\
+        if raw_config.has_option('epicslide', 'js'):
+            config['js'] = raw_config.get('epicslide', 'js')\
                 .replace('\r', '').split('\n')
         return config
 

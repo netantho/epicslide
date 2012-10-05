@@ -1,9 +1,9 @@
-Landslide
+Epicslide
 =========
 
 ---
 
-Landslide
+Epicslide
 ---------
 
 .notes: plop
@@ -136,9 +136,9 @@ An image:
 Slide #7
 ========
 
-Landslide can generate QR codes:
+Epicslide can generate QR codes:
 
-.qr: 450|http://github.com/adamzap/landslide
+.qr: 450|http://epicslide.minet.net
 
 ---
 

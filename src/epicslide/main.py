@@ -18,7 +18,7 @@
 import sys
 
 try:
-    from landslide import generator
+    from epicslide import generator
 except ImportError:
     import generator
 
@@ -26,7 +26,7 @@ from optparse import OptionParser
 
 
 def _parse_options():
-    """ Parses ``landslide`` args options.
+    """ Parses ``epicslide`` args options.
     """
 
     parser = OptionParser(

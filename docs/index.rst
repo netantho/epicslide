@@ -1,35 +1,36 @@
-Landslide's documentation
+Epicslide's documentation
 =========================
 
-Landslide_ is a command-line based presentation generator relying on Web standards (html, javascript, css) and some Python_ libraries such as Jinja2_, Pygments_, docutils_ and Markdown_.
+Epicslide_ is a Landslide_ fork, a command-line based presentation generator relying on Web standards (html, javascript, css) and some Python_ libraries such as Jinja2_, Pygments_, docutils_ and Markdown_.
 
 Installation
 ------------
 
-Landslide requires Python_ v2.5 minimum and these dependencies installed:
+Epicslide requires Python_ v2.5 minimum and these dependencies installed:
 
 * The Jinja2_ template engine
 * Pygments_ for code syntax highlighting
+* WeasyPrint_ for PDF exporting
 
 One of the syntax handlers above:
 
 * The Markdown_ python library if you intend to write your slides contents using the Markdown_ syntax
 * or the docutils_ package if you rather prefer using reStructuredText_.
 
-The easiest way to install Landslide_ is using Pip_::
+.. The easiest way to install Landslide_ is using Pip_::
 
-    $ pip install landslide
+..    $ pip install landslide
 
-Alternatively, you can use easy_install_::
+.. Alternatively, you can use easy_install_::
 
-    $ easy_install landslide
+..    $ easy_install landslide
 
-If you rather want to stay `on the edge`_::
+.. If you rather want to stay `on the edge`_::
 
-    $ git clone https://github.com/n1k0/landslide.git
-    $ cd landslide
-    $ python setup.py build
-    $ sudo python setup.py install
+..    $ git clone https://github.com/n1k0/landslide.git
+..    $ cd landslide
+..    $ python setup.py build
+..    $ sudo python setup.py install
 
 Basic Usage
 -----------
@@ -64,25 +65,25 @@ API Documentation
 Generator
 ~~~~~~~~~
 
-.. automodule:: landslide.generator
+.. automodule:: epicslide.generator
     :members:
 
 Macros
 ~~~~~~
 
-.. automodule:: landslide.macro
+.. automodule:: epicslide.macro
     :members:
 
 Parser
 ~~~~~~
 
-.. automodule:: landslide.parser
+.. automodule:: epicslide.parser
     :members:
 
 Utils
 ~~~~~
 
-.. automodule:: landslide.utils
+.. automodule:: epicslide.utils
     :members:
 
 Indices and tables
@@ -96,6 +97,7 @@ Indices and tables
 
 .. _docutils: http://docutils.sourceforge.net/
 .. _easy_install: http://packages.python.org/distribute/easy_install.html
+.. _Epicslide: http://epicslide.minet.net/
 .. _Jinja2: http://jinja.pocoo.org/
 .. _Landslide: https://github.com/n1k0/landslide
 .. _Markdown: http://daringfireball.net/projects/markdown/
@@ -104,3 +106,4 @@ Indices and tables
 .. _Pygments: http://pygments.org/
 .. _Python: http://python.org/
 .. _reStructuredText: http://docutils.sourceforge.net/rst.html
+.. _WeasyPrint: http://weasyprint.org/

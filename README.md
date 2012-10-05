@@ -1,11 +1,11 @@
 # Overview
 
-Landslide generates a slideshow using the slides that power
+Epicslide is a landslide fork. It generates a slideshow using the slides that power
 [the html5-slides presentation](http://apirocks.com/html5/html5.html).
 
-![demo](http://adamzap.com/random/landslide.png)
+<!-- ![demo](http://adamzap.com/random/landslide.png) -->
 
-A sample slideshow is [here](http://adamzap.com/random/landslide.html).
+<!-- A sample slideshow is [here](http://adamzap.com/random/landslide.html). -->
 
 
 # Features
@@ -13,7 +13,6 @@ A sample slideshow is [here](http://adamzap.com/random/landslide.html).
 - Write your slide contents easily using the [Markdown](http://daringfireball.net/projects/markdown/syntax) or [ReStructuredText](http://docutils.sourceforge.net/rst.html) syntaxes
 - [HTML5](http://dev.w3.org/html5/spec/), Web based, stand-alone document (embedded local images), fancy transitions
 - PDF export (using [WeasyPrint](http://www.weasyprint.org/))
-
 
 # Requirements
 
@@ -23,6 +22,7 @@ A sample slideshow is [here](http://adamzap.com/random/landslide.html).
 - `pygments` for code blocks syntax coloration
 - `markdown` if you use Markdown syntax for your slide contents
 - `docutils` if you use ReStructuredText syntax for your slide contents
+- `weastprint` if you want to export your presentation to PDF files
 
 ## Optional
 
@@ -30,6 +30,7 @@ A sample slideshow is [here](http://adamzap.com/random/landslide.html).
 
 # Installation
 
+<!--
 The easiest way to install Landlside is probably using `pip`:
 
     $ pip install landslide
@@ -44,6 +45,8 @@ If you want to stay on the edge:
     $ cd landslide
     $ python setup.py build
     $ sudo python setup.py install
+-->
+
 
 # Formatting
 
@@ -67,12 +70,12 @@ If you want to stay on the edge:
 
 # Rendering
 
-- Run `landslide slides.md` or `landslide slides.rst`
+- Run `epicslide slides.md` or `epicslide slides.rst`
 - Enjoy your newly generated `presentation.html`
 
 Or get it as a PDF document:
 
-    $ landslide README.md -d readme.pdf
+    $ epicslide README.md -d readme.pdf
     $ open readme.pdf
 
 # Viewing
@@ -126,9 +129,9 @@ Several options are available using the command line:
 
 # Presentation Configuration
 
-Landslide allows to configure your presentation using a `cfg` configuration file, therefore easing the aggregation of source directories and the reuse of them across presentations. Landslide configuration files use the `cfg` syntax. If you know `ini` files, you get the picture. Below is a sample configuration file:
+Epicslide allows to configure your presentation using a `cfg` configuration file, therefore easing the aggregation of source directories and the reuse of them across presentations. Epicslide configuration files use the `cfg` syntax. If you know `ini` files, you get the picture. Below is a sample configuration file:
 
-    [landslide]
+    [epicslide]
     theme  = /path/to/my/beautiful/theme
     source = 0_my_first_slides.md
              a_directory
@@ -143,13 +146,13 @@ Landslide allows to configure your presentation using a `cfg` configuration file
     relative = True
     linenos = inline
 
-Don't forget to declare the `[landslide]` section.
+Don't forget to declare the `[epicslide]` section.
 All configuration files must end in the .cfg extension.
 
 To generate the presentation as configured, just run:
 
     $ cd /path/to/my/presentation/sources
-    $ landslide config.cfg
+    $ epicslide config.cfg
 
 # Macros
 
@@ -178,16 +181,16 @@ You can also add presenter notes to each slide by following the slide content wi
 
 Macros are used to transform the HTML contents of your slide.
 
-You can register your own macros by creating `landslide.macro.Macro` derived classes, implementing a `process(content, source=None)` method and returning a tuple containing the modified contents and some css classes you may be wanting to add to your slide `<div>` element. For example:
+You can register your own macros by creating `epicslide.macro.Macro` derived classes, implementing a `process(content, source=None)` method and returning a tuple containing the modified contents and some css classes you may be wanting to add to your slide `<div>` element. For example:
 
     !python
-    import landslide
+    import epicslide
 
-    class MyMacro(landslide.Macro):
+    class MyMacro(epicslide.Macro):
       def process(self, content, source=None):
         return content + '<p>plop</p>', ['plopped_slide']
 
-    g = landslide.generator.Generator(source='toto.md')
+    g = epicslide.generator.Generator(source='toto.md')
     g.register_macro(MyMacro)
     print g.render()
 
@@ -206,32 +209,32 @@ This will render any slide as below:
 
 ## Setting Custom Destination File
 
-    $ landslide slides.md -d ~/MyPresentations/KeynoteKiller.html
+    $ epicslide slides.md -d ~/MyPresentations/KeynoteKiller.html
 
 ## Working with Directories
 
-    $ landslide slides/
+    $ epicslide slides/
 
 ## Working with Direct Output
 
-    $ landslide slides.md -o | tidy
+    $ epicslide slides.md -o | tidy
 
-## Using an Alternate Landslide Theme
+## Using an Alternate Epicslide Theme
 
-    $ landslide slides.md -t mytheme
-    $ landslide slides.md -t /path/to/theme/dir
+    $ epicslide slides.md -t mytheme
+    $ epicslide slides.md -t /path/to/theme/dir
 
 ## Embedding Base-64-Encoded Images
 
-    $ landslide slides.md -i
+    $ epicslide slides.md -i
 
 ## Exporting to PDF
 
-    $ landslide slides.md -d PowerpointIsDead.pdf
+    $ epicslide slides.md -d PowerpointIsDead.pdf
 
 # Theming
 
-A Landslide theme is a directory following this simple structure:
+A Epicslide theme is a directory following this simple structure:
 
     mytheme/
     |-- base.html
@@ -243,17 +246,17 @@ A Landslide theme is a directory following this simple structure:
 
 If a theme does not provide HTML and JS files, those from the default theme will be used. CSS is not optional.
 
-Last, you can also copy the whole theme directory to your presentation one by passing the `--copy-theme` option to the `landslide` command:
+Last, you can also copy the whole theme directory to your presentation one by passing the `--copy-theme` option to the `epicslide` command:
 
-    $ landslide slides.md -t /path/to/some/theme --copy-theme
+    $ epicslide slides.md -t /path/to/some/theme --copy-theme
 
 # User stylesheets and Javascripts
 
 If you don't want to bother making your own theme for tweaking up a bit your presentation style and/or add some interactivity using tiny bits of Javascript, you can include your own user css and js files to the generated presentation.
 
-This feature is only available if you use a landslide configuration file, by setting the `css` and/or `js` flags:
+This feature is only available if you use a epicslide configuration file, by setting the `css` and/or `js` flags:
 
-    [landslide]
+    [epicslide]
     theme  = /path/to/my/beautiful/theme
     source = slides.mdown
     css =    custom.css
@@ -262,19 +265,16 @@ This feature is only available if you use a landslide configuration file, by set
 
 These will link the ``custom.css`` stylesheet and both the ``jquery.js`` and ``powerpoint.js`` files within the ``<head>`` section of the presentation html file.
 
-**NOTE:** Paths to the css and js files must be relative to the directory you're running the ``landslide`` command from.
+**NOTE:** Paths to the css and js files must be relative to the directory you're running the ``epicslide`` command from.
 
 
 # Publishing your Presentation Online
 
 If you intend to publish your HTML presentation online, you'll have to use the `--relative` option, as well as the `--copy-theme` one to have all asset links relative to the root of your presentation;
 
-    $ landslide slides.md --relative --copy-theme
+    $ epicslide slides.md --relative --copy-theme
 
-That way, you'll just have to host the whole presentation directory to a webserver. Of course, no Python nor PHP nor anything else than a HTTP webserver (like Apache) is required to host a landslide presentation.
-
-Check out a [Landslide presentation customized this way](http://www.akei.com/presentations/2011-Djangocong/index.html).
-
+That way, you'll just have to host the whole presentation directory to a webserver. Of course, no Python nor PHP nor anything else than a HTTP webserver (like Apache) is required to host a epicslide presentation.
 
 ## Theme Variables
 
@@ -304,19 +304,25 @@ The `base.html` must be a [Jinja2 template file](http://jinja.pocoo.org/2/docume
 
 # Authors
 
-## Original Author and Development Lead
+## Epicslide
+
+- Anthony Verez (netantho@minet.net)
+
+## Landslide
+
+### Original Author and Development Lead
 
 - Adam Zapletal (adamzap@gmail.com)
 
-## Co-Author
+### Co-Author
 
 - Nicolas Perriault (nperriault@gmail.com)
 
-## Contributors
+### Contributors
 
 See https://github.com/adamzap/landslide/contributors
 
-## Base Template Authors and Contributors (html5-slides)
+### Base Template Authors and Contributors (html5-slides)
 
 - Marcin Wichary (mwichary@google.com)
 - Ernest Delgado (ernestd@google.com)
