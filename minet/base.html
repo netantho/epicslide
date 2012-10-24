@@ -78,14 +78,16 @@
       <!-- slide source: {% if slide.source %}{{ slide.source.rel_path }}{% endif %} -->
       <div class="slide-wrapper">
         <div class="slide{% if slide.classes %}{% for class in slide.classes %} {{ class }}{% endfor %}{% endif %}">
+          {% if slide.header %}
           <div class="inner">
-            {% if slide.header %}
             <header>{{ slide.header }}</header>
-            {% endif %}
-            {% if slide.content %}
-            <section>{{ slide.content }}</section>
-            {% endif %}
           </div>
+          {% endif %}
+          {% if slide.content %}
+          <div class="inner">
+            <section>{{ slide.content }}</section>
+          </div>
+            {% endif %}
           <div class="presenter_notes">
             <header><h1>Presenter Notes</h1></header>
             <section>
