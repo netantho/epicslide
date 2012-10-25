@@ -279,9 +279,6 @@ header:not(:only-child) {
   letter-spacing: -.05em;
   color: black;
   text-shadow: rgba(0, 0, 0, 0.2) 0 2px 5px;
-  position: absolute;
-  left: 30px;
-  top: 25px;
   margin: 0;
   padding: 0;
 }
@@ -296,21 +293,37 @@ header h1, header h2, header h3, header h4, header h5, header h6 {
   box-shadow: 0 2px 40px #73DAFF;
   color: white;
   text-shadow: 0 0 5px white;
+  height:100%; width:100%;
 }
 
 header h2:first-child {
   margin-top: 0;
 }
 
-section, .slide header:only-child h1 {
+header:not(:only-child) h1, header:not(:only-child) h2 {
+  display:block;
+  text-align:center;
+}
+
+section, .slide header.wide h1 {
   font-family: "Lucida Grande", "Trebuchet MS", Verdana, sans-serif;
-  color: #3f3f3f;
-  text-shadow: rgba(0, 0, 0, 0.2) 0 2px 5px;
-  margin-left: 30px;
-  margin-right: 30px;
-  margin-top: 00px;
-  display: block;
   overflow: hidden;
+  position: absolute;
+  left: 30px;
+}
+
+.slide header.wide h1 {
+  top:0;
+  left:0;
+  margin:0;
+
+  line-height: 700px;
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+  height: 700px;
+  width: 900px;
+  font-size: 50px;
 }
 
 img { display: block; margin: auto; }
@@ -349,22 +362,6 @@ pre {
 li {
   padding: 10px 0;
   font-size: 20px;
-}
-
-.slide header:only-child h1 {
-  line-height: 180%;
-  text-align: center;
-  display: table-cell;
-  vertical-align: middle;
-  /*height: 700px;*/
-  width: 900px;
-  font-size: 50px;
-  margin-top:100px;
-  margin-bottom:100px;
-  background-color: #001E2B;
-  box-shadow: 0 2px 40px #73DAFF;
-  color: white;
-  text-shadow: 0 0 5px white;
 }
 
 .sidebar {

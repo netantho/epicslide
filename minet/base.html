@@ -79,15 +79,12 @@
       <div class="slide-wrapper">
         <div class="slide{% if slide.classes %}{% for class in slide.classes %} {{ class }}{% endfor %}{% endif %}">
           {% if slide.header %}
-          <div class="inner">
-            <header>{{ slide.header }}</header>
-          </div>
+          <header{% if not slide.content %} class="wide"{% endif %}>{{ slide.header 
+}}</header>
           {% endif %}
           {% if slide.content %}
-          <div class="inner">
-            <section>{{ slide.content }}</section>
-          </div>
-            {% endif %}
+          <section>{{ slide.content }}</section>
+          {% endif %}
           <div class="presenter_notes">
             <header><h1>Presenter Notes</h1></header>
             <section>
