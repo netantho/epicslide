@@ -58,33 +58,37 @@ class Generator(object):
             - ``source``: source file or directory path
             Available ``kwargs`` are:
             - ``copy_theme``: copy theme directory and files into presentation
-                              one
-            - ``destination_file``: path to html or PDF destination file
-            - ``direct``: enables direct rendering presentation to stdout
-            - ``debug``: enables debug mode
-            - ``embed``: generates a standalone document, with embedded assets
-            - ``encoding``: the encoding to use for this presentation
-            - ``extensions``: Comma separated list of markdown extensions
-            - ``logger``: a logger lambda to use for logging
-            - ``presenter_notes``: enable presenter notes
-            - ``relative``: enable relative asset urls
-            - ``theme``: path to the theme to use for this presentation
-            - ``verbose``: enables verbose output
+                              one. Default: False.
+            - ``debug``: enables debug mode. Default: False.
+            - ``destination_file``: path to html or PDF destination file.
+                                    Default: presentation.html.
+            - ``direct``: enables direct rendering presentation to stdout.
+                          Default: False.
+            - ``embed``: generates a standalone document, with embedded assets.
+                         Default: False.
+            - ``encoding``: the encoding to use for this presentation. Default: utf8.
+            - ``extensions``: Comma separated list of markdown extensions. Default: None.
+            - ``linenos``: Line numbers style ('no', 'inline' or 'table'). Default: inline.
+            - ``logger``: a logger lambda to use for logging. Default: None.
+            - ``presenter_notes``: enable presenter notes. Default: True.
+            - ``relative``: enable relative asset urls. Default: False.
+            - ``theme``: path to the theme to use for this presentation. Default: default.
+            - ``verbose``: enables verbose output. Default: False.
         """
         self.copy_theme = kwargs.get('copy_theme', False)
         self.debug = kwargs.get('debug', False)
         self.destination_file = kwargs.get('destination_file',
-                                           'presentation.html')
+                                           self.DEFAULT_DESTINATION)
         self.direct = kwargs.get('direct', False)
         self.embed = kwargs.get('embed', False)
         self.encoding = kwargs.get('encoding', 'utf8')
         self.extensions = kwargs.get('extensions', None)
+        self.linenos = self.linenos_check(kwargs.get('linenos'))
         self.logger = kwargs.get('logger', None)
         self.presenter_notes = kwargs.get('presenter_notes', True)
         self.relative = kwargs.get('relative', False)
         self.theme = kwargs.get('theme', 'default')
         self.verbose = kwargs.get('verbose', False)
-        self.linenos = self.linenos_check(kwargs.get('linenos'))
         self.num_slides = 0
         self.__toc = []
 
@@ -135,6 +139,9 @@ class Generator(object):
         self.theme_dir = self.find_theme_dir(self.theme, self.copy_theme)
         self.template_file = self.get_template_file()
 
+    """
+    TODO: merge css & js into assets
+    """
     def add_user_css(self, css_list):
         """ Adds supplementary user css files to the presentation. The
             ``css_list`` arg can be either a ``list`` or a ``basestring``
@@ -504,6 +511,7 @@ class Generator(object):
         """
         try:
             f = tempfile.NamedTemporaryFile(delete=False, suffix='.html')
+            print f.name
             f.write(html.encode('utf_8', 'xmlcharrefreplace'))
             f.close()
         except Exception:

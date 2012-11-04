@@ -1,4 +1,15 @@
-from setuptools import setup, find_packages
+from setuptools import setup, find_packages, Command
+
+class PyTest(Command):
+    user_options = []
+    def initialize_options(self):
+        pass
+    def finalize_options(self):
+        pass
+    def run(self):
+        import sys,subprocess
+        errno = subprocess.call([sys.executable, 'tests/runtests.py'])
+        raise SystemExit(errno)
 
 setup(
     name='epicslide',
@@ -48,4 +59,7 @@ slideshow.
             "epicslide = epicslide.main:main",
         ]
     },
+      cmdclass = {'test': PyTest},
 )
+
+

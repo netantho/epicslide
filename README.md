@@ -48,6 +48,26 @@ If you want to stay on the edge:
 -->
 
 
+# Running tests
+
+You should first install `pytest` and some pytest plugins:
+
+	$ pip install pytest pytest-cov pytest-pep8
+	
+You can run the tests without any pytest plugins:
+	$ python -m pytest tests
+
+You may want to have the test coverage:
+	$ python -m pytest --cov src/epicslide tests
+	$ python -m coverage html -d tests/report
+
+You may want to have pep8 checking:
+	$ python -m pytest --pep8 tests
+
+And now, you can combine the cov and pep8 plugins:
+	$ python -m pytest --cov src/epicslide --pep8 tests
+	$ python -m coverage html -d tests/report
+
 # Formatting
 
 ## Markdown

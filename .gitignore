@@ -15,3 +15,7 @@ docs/_build
 /.project
 /.pydevproject
 /.settings/org.eclipse.core.resources.prefs
+*.egg
+*.coverage
+.cache
+tests/report
