@@ -25,7 +25,7 @@ except ImportError:
 from optparse import OptionParser
 
 
-def _parse_options():
+def _parse_options(args=None):
     """ Parses ``epicslide`` args options.
     """
 
@@ -136,13 +136,19 @@ def _parse_options():
         default='',
     )
 
-    (options, args) = parser.parse_args()
-
     if not args:
-        parser.print_help()
-        sys.exit(1)
+        (options, pargs) = parser.parse_args()
+    else:  # tests
+        (options, pargs) = parser.parse_args(args)
 
-    return options, args[0]
+    if not pargs:
+        if not args:
+            parser.print_help()
+            sys.exit(1)
+        else:  # tests
+            return 1
+
+    return options, pargs[0]
 
 
 def log(message, type):
