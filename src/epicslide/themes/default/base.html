@@ -82,8 +82,12 @@
             {% if slide.header %}
             <header>{{ slide.header }}</header>
             {% endif %}
-            {% if slide.content %}
-            <section>{{ slide.content }}</section>
+            {% if slide.content and slide.header %}
+            <section class="title_present">{{ slide.content }}</section>
+            {% else %}
+	            {% if slide.content %}
+	            <section>{{ slide.content }}</section>
+	            {% endif %}
             {% endif %}
           </div>
           <div class="presenter_notes">

@@ -1,16 +1,27 @@
-from setuptools import setup, find_packages
+from setuptools import setup, find_packages, Command
+
+class PyTest(Command):
+    user_options = []
+    def initialize_options(self):
+        pass
+    def finalize_options(self):
+        pass
+    def run(self):
+        import sys,subprocess
+        errno = subprocess.call([sys.executable, 'tests/runtests.py'])
+        raise SystemExit(errno)
 
 setup(
-    name='landslide',
-    version='1.0.1',
-    description='Lightweight markup language-based html5 slideshow generator',
+    name='epicslide',
+    version='0.1',
+    description='A landslide fork, lightweight markup language-based html5 slideshow generator',
     packages=find_packages('src'),
     package_dir = {'': 'src'},
     include_package_data=True,
     zip_safe=False,
-    author='Adam Zapletal',
-    author_email='adamzap@gmail.com',
-    url='http://github.com/adamzap/landslide',
+    author='Anthony VEREZ',
+    author_email='netantho@minet.net',
+    url='http://epicslide.minet.net',
     license='Apache 2.0',
     platforms=['any'],
     keywords=[
@@ -40,15 +51,15 @@ setup(
         'Topic :: Text Processing :: Markup'
     ],
     long_description="""\
-Landslide takes your Markdown, RST, or Textile file(s) and generates a
-slideshow like `this <http://adamzap.com/random/landslide.html>`_.
-
-Read the `README <http://github.com/adamzap/landslide/blob/master/README.md>`_
-for formatting instructions and more information.
+Epicslide takes your Markdown, RST, or Textile file(s) and generates a
+slideshow.
 """,
     entry_points={
         "console_scripts": [
-            "landslide = landslide.main:main",
+            "epicslide = epicslide.main:main",
         ]
     },
+      cmdclass = {'test': PyTest},
 )
+
+

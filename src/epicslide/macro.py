@@ -24,6 +24,9 @@ import utils
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters import HtmlFormatter
 
+def print_function(*args):
+    print args
+
 
 class Macro(object):
     """Base class for Macros. A Macro aims to analyse, process and eventually
@@ -33,7 +36,10 @@ class Macro(object):
     options = {}
 
     def __init__(self, logger=sys.stdout, embed=False, options=None):
-        self.logger = logger
+        if logger == sys.stdout:
+            self.logger = print_function
+        else:
+            self.logger = logger
         self.embed = embed
         if options:
             if not isinstance(options, dict):
@@ -112,7 +118,7 @@ class EmbedImagesMacro(Macro):
 
             content = content.replace(u"src=\"" + image_url,
                                       u"src=\"" + encoded_url, 1)
-
+            print type(image_url), self.logger, sys.stdout
             self.logger(u"Embedded image %s" % image_url, 'notice')
 
         return content, classes
