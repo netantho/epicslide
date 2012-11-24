@@ -447,14 +447,19 @@ aside {
   aside.source {
     position: absolute;
     bottom: 6px;
-    left: 10px;
-    text-indent: 10px;
+    left: 8.6em;
+    text-indent: 0px;
   }
   aside.page_number {
     position: absolute;
     bottom: 6px;
     right: 10px;
     text-indent: 10px;
+  }
+  a.legal {
+    position: absolute;
+    bottom: 6px;
+    left: 10px;
   }
 
 .notes {

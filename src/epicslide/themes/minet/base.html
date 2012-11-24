@@ -96,12 +96,13 @@
           <footer>
             {% if slide.source %}
             <aside class="source">
-              Source: <a href="{{ slide.source.rel_path }}">{{ slide.source.rel_path }}</a>
+              | source: <a href="{{ slide.source.rel_path }}">{{ slide.source.rel_path }}</a>
             </aside>
             {% endif %}
             <aside class="page_number">
               {{ slide.number }}/{{ num_slides }}
             </aside>
+            <a href="www.minet.net" class="legal">www.minet.net</a>
           </footer>
         </div>
       </div>
