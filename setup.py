@@ -60,6 +60,7 @@ slideshow.
         ]
     },
       cmdclass = {'test': PyTest},
+    data_files=[('/usr/share/man/man8/', ['epicslide.8.gz'])],
 )
 
 
