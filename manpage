@@ -1,0 +1,41 @@
+.\" Manpage for epicslide
+.\" Contact francois@minet.net or netantho@minet.net to correct errors or typos
+.TH man 8 "25 Nov 2012" "1.0" "epicslide man page"
+.SH NAME
+epicslide \- generates presentation
+.SH SYNOPSIS
+epicslide [options] input.md ...
+.SH DESCRIPTION
+Generates an HTML5 or PDF slideshow from Markdown or other formats
+.SH OPTIONS
+  -h, --help            show this help message and exit
+  -c, --copy-theme      Copy theme directory into current presentation source
+                        directory
+  -b, --debug           Will display any exception trace to stdout
+  -d FILE, --destination=FILE
+                        The path to the to the destination file: .html or .pdf
+                        extensions allowed (default: presentation.html)
+  -e ENCODING, --encoding=ENCODING
+                        The encoding of your files (defaults to utf8)
+  -i, --embed           Embed stylesheet and javascript contents,
+                        base64-encoded images in presentation to make a
+                        standalone document
+  -l LINENOS, --linenos=LINENOS
+                        How to output linenos in source code. Three options
+                        availables: no (no line numbers); inline (inside <pre>
+                        tag); table (lines numbers in another cell, copy-paste
+                        friendly)
+  -o, --direct-output   Prints the generated HTML code to stdout; won't work
+                        with PDF export
+  -P, --no-presenter-notes
+                        Don't include presenter notes in the output
+  -q, --quiet           Won't write anything to stdout (silent mode)
+  -r, --relative        Make your presentation asset links relative to current
+                        pwd; This may be useful if you intend to publish your
+                        html presentation online.
+  -t THEME, --theme=THEME
+                        A theme name, or path to a landlside theme directory
+  -v, --verbose         Write informational messages to stdout (enabled by
+                        default)
+  -x EXTENSIONS, --extensions=EXTENSIONS
+                        Comma-separated list of extensions for Markdown
