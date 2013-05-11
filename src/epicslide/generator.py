@@ -482,7 +482,7 @@ class Generator(object):
 
         if self.embed:
             images = re.findall(r'\s+background(?:-image)?:\surl\((.+?)\).+;',
-                            html, re.DOTALL | re.UNICODE)
+                                html, re.DOTALL | re.UNICODE)
 
             for img_url in images:
                 img_url = img_url.replace('"', '').replace("'", '')

@@ -10,14 +10,17 @@ from epicslide import parser
 
 
 class TestParserTest():
-    def test___init__(self):
-        print parser.__dict__
+    def test_init(self):
         assert parser.Parser('.md').format == 'markdown'
         assert parser.Parser('.markdown').format == 'markdown'
         assert parser.Parser('.rst').format == 'restructuredtext'
         assert parser.Parser('.textile').format == 'textile'
         with pytest.raises(NotImplementedError):
             parser.Parser('.txt')
+
+    def test_init_md_extensions(self):
+        p = parser.Parser('.md', md_extensions='a,b,c')
+        assert p.md_extensions == ['a', 'b', 'c']
 
     @pytest.mark.parametrize(('format', 'input', 'output'),
                              [('.md', 'Hello World!\n============',
@@ -50,5 +53,15 @@ class TestParserTest():
     def test_parse(self, format, input, output):
         p = parser.Parser(format)
         r = p.parse(input)
-        print r
         assert r == output
+
+    def test_parse_unicode_nom(self):
+        p = parser.Parser('.md')
+        r = p.parse(u'\ufeffplop')  # unicode BOM
+        assert r == '<p>plop</p>'
+
+    def test_parse_unknown_format(self):
+        p = parser.Parser('.md')
+        p.format = '.plop'
+        with pytest.raises(NotImplementedError):
+            p.parse('foo bar')

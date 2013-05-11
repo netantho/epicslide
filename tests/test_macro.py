@@ -37,6 +37,10 @@ class TestMacro(object):
         assert r[0] == "<p>foo</p>\n<p>bar</p>"
         assert r[1] == []
 
+    def test_init_fail_options(self):
+        with pytest.raises(ValueError):
+            m = macro.Macro(options='plop')
+
 
 class TestCodeHighlightingMacro(object):
     def setup_method(self, method):
@@ -113,12 +117,19 @@ class TestEmbedImagesMacro(object):
 
 
 class TestFixImagePathsMacro(object):
-    def test_process(self):
+    def test_process_embed_false(self):
         base_dir = os.path.join(SAMPLES_DIR, 'example1', 'slides.md')
         m = macro.FixImagePathsMacro(embed=False)
         content, classes = m.process('<img src="monkey.jpg"/>', base_dir)
         assert re.match(r'<img src="file://.*?/monkey.jpg" */>',
                         content)
+
+    def test_process_embed_true(self):
+        base_dir = os.path.join(SAMPLES_DIR, 'example1', 'slides.md')
+        m = macro.FixImagePathsMacro(embed=True)
+        content, classes = m.process('<img src="monkey.jpg"/>', base_dir)
+        assert content == '<img src="monkey.jpg"/>'
+        assert classes == []
 
 
 class TestFxMacro(object):

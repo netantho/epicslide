@@ -21,13 +21,21 @@ class TestGenerator(object):
     """
     FACTORIES
     """
-    def factory_source(self, tmpdir):
-        f = tmpdir.join("tmp.md")
+    def factory_source(self, tmpdir, filename=None):
+        if filename:
+            f = tmpdir.join(filename)
+        else:
+            f = tmpdir.join("tmp.md")
         f.write("Test\n====")
         return str(f)
 
     def factory_generator(self, tmpdir):
         f = self.factory_source(tmpdir)
+        g = Generator(f)
+        return g
+
+    def factory_generator_with_image(self, tmpdir):
+        f = self.factory_source_with_image(tmpdir)
         g = Generator(f)
         return g
 
@@ -48,6 +56,20 @@ class TestGenerator(object):
         f.write("")
         return str(f)
 
+    def factory_cfg(self, tmpdir):
+        f = tmpdir.join('config.cfg')
+        f.write("[epicslide]\n"
+                "source = ../example1\n"
+                "         ../example2\n"
+                "         ../example3\n"
+                "destination = plop.html\n"
+                "linenos = inline\n"
+                "embed = True\n"
+                "relative = False\n"
+                "css = plop.css\n"
+                "js = plop.js\n")
+        return str(f)
+
     """
     TESTS
     """
@@ -59,9 +81,45 @@ class TestGenerator(object):
         with pytest.raises(IOError):
             assert Generator('foo.md')
 
+    def test_init_existing_folder_as_destination(self, tmpdir):
+        f = self.factory_source(tmpdir)
+        with pytest.raises(IOError):
+            assert Generator(f, destination_file=str(tmpdir))
+
+    def test_init_unknown_destination_format(self, tmpdir):
+        f = self.factory_source(tmpdir)
+        with pytest.raises(IOError):
+            assert Generator(f, destination_file=str(tmpdir.join("tmp.exe")))
+
     def test_init_valid_file(self, tmpdir):
         f = self.factory_source(tmpdir)
         assert Generator(f)
+
+    def test_init_pdf_destination(self, tmpdir):
+        f = self.factory_source(tmpdir)
+        g = Generator(f, destination_file=str(tmpdir.join("tmp.pdf")))
+        assert g.file_type == 'pdf'
+        assert g.embed
+        g.direct = True
+        with pytest.raises(IOError):
+            g.execute()
+
+    def test_init_cfg_file(self):
+        g = Generator(os.path.join(SAMPLES_DIR, 'example4',
+                                   'config.cfg'))
+        assert g.presenter_notes
+        assert not g.verbose
+        assert g.source_base_dir.endswith('samples/example4')
+        assert g.encoding == 'utf8'
+        assert g.theme_dir.endswith('themes/default')
+        assert not g.direct
+        assert g.linenos == 'inline'
+        assert not g.relative
+        assert g.theme == 'default'
+        assert not g.debug
+        assert g.destination_file == 'presentation.html'
+        assert g.file_type == 'html'
+        assert not g.copy_theme
 
     def test_init_default_arguments(self, tmpdir):
         g = self.factory_generator(tmpdir)
@@ -171,9 +229,20 @@ class TestGenerator(object):
         g.execute()
         assert os.path.exists(g.destination_file)
 
+    def test_execute_direct(self, capsys, tmpdir):
+        """
+        We want execute() with direct output
+        """
+        g = self.factory_generator(tmpdir)
+        g.direct = True
+        g.destination_file = str(tmpdir.join("presentation.html"))
+        g.execute()
+        out, err = capsys.readouterr()
+        assert out
+        assert not err
+
     def test_get_template_file(self, tmpdir):
         g = self.factory_generator(tmpdir)
-        print g.get_template_file()
         assert g.get_template_file().endswith("/themes/default/base.html")
         g.theme_dir = "/tmp"
         assert g.get_template_file().endswith("/themes/default/base.html")
@@ -195,6 +264,35 @@ class TestGenerator(object):
         assert c['source']['abs_path'].endswith("tmp.md")
         assert c['source']['rel_path'].endswith("tmp.md")
 
+    def test_fetch_contents_list(self, tmpdir):
+        f = self.factory_source(tmpdir)
+        f2 = self.factory_source(tmpdir, 'tmp2.md')
+        g = Generator(f)
+        c = g.fetch_contents([f, f2])
+        c = c[0]
+        assert c['presenter_notes'] is None
+        assert c['level'] == 1
+        assert c['title'] == "Test"
+        assert c['content'] is None
+        assert c['header'] == u'<h1>Test</h1>'
+        assert c['classes'] == []
+        assert c['source']['abs_path'].endswith("tmp.md")
+        assert c['source']['rel_path'].endswith("tmp.md")
+
+    def test_fetch_contents_dir(self, tmpdir):
+        f = self.factory_source(tmpdir)
+        g = Generator(f)
+        c = g.fetch_contents(str(tmpdir))
+        c = c[0]
+        assert c['presenter_notes'] is None
+        assert c['level'] == 1
+        assert c['title'] == "Test"
+        assert c['content'] is None
+        assert c['header'] == u'<h1>Test</h1>'
+        assert c['classes'] == []
+        assert c['source']['abs_path'].endswith("tmp.md")
+        assert c['source']['rel_path'].endswith("tmp.md")
+
     def test_find_theme_dir(self, tmpdir):
         g = self.factory_generator(tmpdir)
         g.copy_theme = True
@@ -203,6 +301,7 @@ class TestGenerator(object):
         assert os.path.exists(g.theme_dir)
         with pytest.raises(IOError):
             g.find_theme_dir('epictest')
+        assert g.find_theme_dir(str(tmpdir))
 
     def test_get_assets(self, tmpdir):
         g = self.factory_generator(tmpdir)
@@ -216,6 +315,12 @@ class TestGenerator(object):
         assert css['screen']['contents']
         assert js['path_url'].endswith("default/js/slides.js")
         assert js['contents']
+        # Fallback if theme doesn't exist
+        g.theme_dir = 'epictest'
+        css = g.get_css()
+        assert css['print']['path_url'].endswith("default/css/print.css")
+        js = g.get_js()
+        assert js['path_url'].endswith("default/js/slides.js")
 
     def test_get_slide_vars(self, tmpdir):
         g = self.factory_generator(tmpdir)
@@ -229,6 +334,8 @@ class TestGenerator(object):
 
     def test_get_template_vars(self, tmpdir):
         g = self.factory_generator(tmpdir)
+        svars = g.get_template_vars([])
+        assert svars['head_title'] == 'Untitled Presentation'
         svars = g.get_template_vars([{'title': "slide1", 'level': 1},
                                      {'title': "slide2", 'level': 1},
                                      {'title': None, 'level': 1}, ])
@@ -303,7 +410,8 @@ class TestGenerator(object):
     def test_write_pdf(self, tmpdir):
         g = self.factory_generator(tmpdir)
         g.destination_file = str(tmpdir.join("presentation.pdf"))
-        g.write_pdf(g.render())
+        g.file_type = 'pdf'
+        g.write()
         assert os.path.exists(g.destination_file)
 
     def test_presenter_notes(self, tmpdir):
@@ -339,3 +447,15 @@ class TestGenerator(object):
         # check that the file was properly encoded in utf_8
         assert re.findall(u'русский', file_contents,
                           flags=re.UNICODE)
+
+    def test_parse_config(self, tmpdir):
+        g = self.factory_generator(tmpdir)
+        c = g.parse_config(str(self.factory_cfg(tmpdir)))
+        expected = {'destination': 'plop.html',
+                    'linenos': 'inline',
+                    'js': ['plop.js'],
+                    'relative': False,
+                    'source': ['../example1', '../example2', '../example3'],
+                    'embed': True,
+                    'css': ['plop.css']}
+        assert c == expected
