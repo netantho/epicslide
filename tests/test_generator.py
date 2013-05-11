@@ -55,12 +55,9 @@ class TestGenerator(object):
         with pytest.raises(IOError):
             assert Generator("")
 
-    def test_init_empty_file(self, tmpdir):
-        pytest.skip()
-        f = tmpdir.join("tmp")
-        f.write("")
+    def test_init_inexistant_file(self):
         with pytest.raises(IOError):
-            assert Generator(str(f))
+            assert Generator('foo.md')
 
     def test_init_valid_file(self, tmpdir):
         f = self.factory_source(tmpdir)
@@ -132,7 +129,6 @@ class TestGenerator(object):
 
     def test_add_user_css_list(self, tmpdir):
         g = self.factory_generator(tmpdir)
-        # FIXME
         g.user_css = []
         g.user_js = []
         css = []
@@ -322,3 +318,24 @@ class TestGenerator(object):
         svars = g.get_slide_vars("<h1>heading</h1>\n<p>foo</p>\n"
                                  "<h1>Presenter Notes</h1>\n<p>bar</p>\n")
         assert svars['presenter_notes'] is None
+
+    def test_unicode(self):
+        g = Generator(os.path.join(SAMPLES_DIR, 'example3', 'slides.rst'))
+        g.execute()
+        s = g.render()
+        assert s.find('<pre>') != -1
+        assert len(re.findall('<pre><span', s)) == 3
+
+    def test_inputencoding(self):
+        g = Generator(os.path.join(SAMPLES_DIR, 'example3',
+                                   'slides.koi8_r.rst'), encoding='koi8_r')
+        content = g.render()
+        # check that the string is utf_8
+        assert re.findall(u'русский', content,
+                          flags=re.UNICODE)
+        g.execute()
+        file_contents = codecs.open(g.destination_file, encoding='utf_8')\
+            .read()
+        # check that the file was properly encoded in utf_8
+        assert re.findall(u'русский', file_contents,
+                          flags=re.UNICODE)
