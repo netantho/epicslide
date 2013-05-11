@@ -11,7 +11,7 @@ Epicslide is a landslide fork. It generates a slideshow using the slides that po
 
 # Requirements
 
-`python` and the following modules:
+`python` (python2) and the following modules:
 
 - `jinja2`
 - `pygments` for code blocks syntax coloration
@@ -25,12 +25,13 @@ Epicslide is a landslide fork. It generates a slideshow using the slides that po
 
 # Installation
 
+  $ python setup.py install
 
 # Running tests
 
 You should first install `pytest` and some pytest plugins:
 
-	$ pip install pytest pytest-cov pytest-pep8
+	$ pip install -r tests/requirements.txt
 	
 You can run the tests without any pytest plugins:
 	$ python -m pytest tests
@@ -38,6 +39,7 @@ You can run the tests without any pytest plugins:
 You may want to have the test coverage:
 	$ python -m pytest --cov src/epicslide tests
 	$ python -m coverage html -d tests/report
+  $ firefox tests/report/index.html
 
 You may want to have pep8 checking:
 	$ python -m pytest --pep8 tests
