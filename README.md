@@ -3,11 +3,6 @@
 Epicslide is a landslide fork. It generates a slideshow using the slides that power
 [the html5-slides presentation](http://apirocks.com/html5/html5.html).
 
-<!-- ![demo](http://adamzap.com/random/landslide.png) -->
-
-<!-- A sample slideshow is [here](http://adamzap.com/random/landslide.html). -->
-
-
 # Features
 
 - Write your slide contents easily using the [Markdown](http://daringfireball.net/projects/markdown/syntax) or [ReStructuredText](http://docutils.sourceforge.net/rst.html) syntaxes
@@ -29,23 +24,6 @@ Epicslide is a landslide fork. It generates a slideshow using the slides that po
 - `textile` for textile support
 
 # Installation
-
-<!--
-The easiest way to install Landlside is probably using `pip`:
-
-    $ pip install landslide
-
-Alternatively, you can use `easy_install`:
-
-    $ easy_install landslide
-
-If you want to stay on the edge:
-
-    $ git clone https://github.com/adamzap/landslide.git
-    $ cd landslide
-    $ python setup.py build
-    $ sudo python setup.py install
--->
 
 
 # Running tests
@@ -327,6 +305,7 @@ The `base.html` must be a [Jinja2 template file](http://jinja.pocoo.org/2/docume
 ## Epicslide
 
 - Anthony Verez (netantho@minet.net)
+- François Monniot (francois@minet.net)
 
 ## Landslide
 
