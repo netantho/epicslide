@@ -511,7 +511,6 @@ class Generator(object):
         """
         try:
             f = tempfile.NamedTemporaryFile(delete=False, suffix='.html')
-            print f.name
             f.write(html.encode('utf_8', 'xmlcharrefreplace'))
             f.close()
         except Exception:

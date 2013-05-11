@@ -108,7 +108,6 @@ class TestEmbedImagesMacro(object):
         m = macro.EmbedImagesMacro(logtest, True)
         with pytest.raises(WarningMessage):
             assert m.process('<img src="toto.jpg"/>', '.')
-        print type(base_dir), base_dir
         content, classes = m.process('<img src="monkey.jpg"/>', base_dir)
         assert re.match(r'<img src="data:image/jpeg;base64,(.+?)"/>', content)
 
